@@ -1,0 +1,12 @@
+node_modules
+# package-lock.json
+yarn.lock
+
+#env
+.env
+
+# Logs
+*.log
+
+# prisma
+client_generated
