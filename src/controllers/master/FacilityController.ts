@@ -85,9 +85,10 @@ class FacilityController {
       });
     } catch (error) {
       console.error("Error in create:", error);
-      res
-        .status(500)
-        .json({ success: false, message: "Terjadi kesalahan server" });
+      res.status(500).json({
+        success: false,
+        message: "Terjadi kesalahan server",
+      });
     }
   }
 
