@@ -2,7 +2,7 @@ import { Router } from "express";
 import GalleryController from "../../controllers/GalleryController";
 import { authenticate } from "../../middleware/AuthMiddleware";
 import upload from "../../middleware/uploadMiddleware";
-
+console.log("galleryRoutes loaded");
 const router = Router();
 
 router.get("/gallery", GalleryController.getAll);
