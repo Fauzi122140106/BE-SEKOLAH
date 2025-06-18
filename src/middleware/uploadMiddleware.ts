@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 import { Request } from "express";
 
-// Buat folder uploads/facilities jika belum ad
+// Buat folder uploads/facilities jika belum ada
 const uploadDir = path.join(__dirname, "../../uploads/facilities");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
