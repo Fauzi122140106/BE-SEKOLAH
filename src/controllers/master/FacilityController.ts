@@ -54,7 +54,7 @@ class FacilityController {
     }
   }
 
-  // POST /facilities
+  // POST /facilities//
   async create(req: Request, res: Response) {
     try {
       const { title, description, slug, features } = req.body;
