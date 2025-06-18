@@ -6,6 +6,8 @@ import path from "path";
 import { PrismaClient } from "@prisma/client";
 import apiRoutes from "./src/routes/api.route";
 import { errorHandler } from "./src/middleware/ErrorMiddleware";
+import facilityRoutes from "./src/routes/master/facilityRoutes";
+import galleryRoutes from "./src/routes/master/galleryRoutes";
 
 const prisma = new PrismaClient();
 const app = express();
@@ -19,6 +21,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api", apiRoutes);
+
+//facility routes
+app.use("/api", facilityRoutes);
+
+//gallery routes
+app.use("/api", galleryRoutes);
 
 // Error handling middleware
 app.use(errorHandler);

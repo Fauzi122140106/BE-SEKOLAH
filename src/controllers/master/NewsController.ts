@@ -1,3 +1,5 @@
+//src/controllers/master/NewsController.ts
+
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 

@@ -4,16 +4,14 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
-  // Hash password
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash("admin123", salt);
 
-  // Create admin user
   const adminUser = await prisma.user.upsert({
-    where: { email: "admin@sekolah.com" },
+    where: { username: "admin" }, // username sekarang sudah diakui oleh Prisma
     update: {},
     create: {
-      email: "admin@sekolah.com",
+      username: "admin",
       password: hashedPassword,
       name: "Admin Sekolah",
       role: "admin",
@@ -21,7 +19,11 @@ async function main() {
     },
   });
 
-  console.log("✅ Admin user created:", adminUser);
+  console.log("✅ Admin user created:", {
+    id: adminUser.id,
+    username: adminUser.username,
+    role: adminUser.role,
+  });
 }
 
 main()

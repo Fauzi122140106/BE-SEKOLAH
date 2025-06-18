@@ -3,8 +3,8 @@ import path from "path";
 import fs from "fs";
 import { Request } from "express";
 
-// Buat folder uploads jika belum ada
-const uploadDir = path.join(__dirname, "../../uploads");
+// Buat folder uploads/facilities jika belum ada
+const uploadDir = path.join(__dirname, "../../uploads/facilities");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
     _file: Express.Multer.File,
     cb: (error: Error | null, destination: string) => void
   ) {
-    cb(null, uploadDir);
+    cb(null, uploadDir); // folder tujuan yang benar
   },
   filename: function (
     _req: Request,

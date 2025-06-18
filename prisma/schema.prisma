@@ -7,14 +7,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  superadmin
-  admin
-}
-
 model User {
   id        Int      @id @default(autoincrement())
-  email     String   @unique
+  username  String   @unique
   password  String
   name      String
   role      Role
@@ -22,6 +17,12 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+enum Role {
+  superadmin
+  admin
+}
+
 model News {
   id        Int      @id @default(autoincrement())
   title     String
@@ -30,6 +31,25 @@ model News {
   author    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Facility {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  image       String?
+  slug        String   @unique
+  status      String   @default("active")
+  features    Json
+  createdAt   DateTime @default(now())
+}
+model Gallery {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  category    String
+  image       String?
+  uploadDate  DateTime @default(now())
 }
 
 
