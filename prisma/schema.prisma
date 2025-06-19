@@ -37,7 +37,7 @@ model Facility {
   id          Int      @id @default(autoincrement())
   title       String
   description String
-  image       String?
+  images       Json?
   slug        String   @unique
   status      String   @default("active")
   features    Json

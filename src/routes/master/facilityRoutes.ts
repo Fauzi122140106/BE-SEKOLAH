@@ -3,6 +3,7 @@ import FacilityController from "../../controllers/master/FacilityController";
 import { authenticate } from "../../middleware/AuthMiddleware";
 import multer from "multer";
 import path from "path";
+import { blobUpload } from "../../controllers/master/multer";
 
 // Setup multer
 const storage = multer.diskStorage({
@@ -24,7 +25,7 @@ router.get("/facilities/:slug", FacilityController.getBySlug);
 router.post(
   "/facilities",
   authenticate,
-  upload.single("image"), // proses file
+  blobUpload.array("image"), // proses file
   FacilityController.create
 );
 router.put("/facilities/:id", authenticate, FacilityController.update);

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import fs from "fs";
 import path from "path";
+import { put } from "@vercel/blob";
 
 const prisma = new PrismaClient();
 
@@ -58,14 +59,23 @@ class GalleryController {
           .json({ success: false, message: "Gambar harus diupload." });
       }
 
-      console.log("File uploaded:", file.filename);
+      let imageUrl = "";
+
+      if (file.buffer) {
+        const { url } = await put(file.originalname, file.buffer, {
+          access: "public",
+          addRandomSuffix: true,
+        });
+
+        imageUrl = url;
+      }
 
       const newImage = await prisma.gallery.create({
         data: {
           title,
           description,
           category,
-          image: file.filename,
+          image: imageUrl,
         },
       });
 

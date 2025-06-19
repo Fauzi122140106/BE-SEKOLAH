@@ -2,6 +2,7 @@
 
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import { put } from "@vercel/blob";
 
 const prisma = new PrismaClient();
 
@@ -26,7 +27,23 @@ class NewsController {
   async create(req: Request, res: Response) {
     try {
       const { title, content, author } = req.body;
-      const imageUrl = req.file ? req.file.filename : null;
+      const file = req.file;
+
+      if (!file) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Gambar harus diupload." });
+      }
+      let imageUrl = "";
+
+      if (file.buffer) {
+        const { url } = await put(file.originalname, file.buffer, {
+          access: "public",
+          addRandomSuffix: true,
+        });
+
+        imageUrl = url;
+      }
 
       if (!title || !content || !author) {
         return res.status(400).json({

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import { put } from "@vercel/blob";
 
 const prisma = new PrismaClient();
 
@@ -58,7 +59,31 @@ class FacilityController {
   async create(req: Request, res: Response) {
     try {
       const { title, description, slug, features } = req.body;
-      const image = req.file?.filename || null;
+      const file = req.files;
+      let imageUrl = "";
+
+      if (!file) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Gambar harus diupload." });
+      }
+
+      const files = req.files as Express.Multer.File[];
+      const imageUrls: string[] = [];
+
+      if (files && files.length > 0) {
+        for (const file of files) {
+          if (file.buffer) {
+            const { url } = await put(file.originalname, file.buffer, {
+              access: "public",
+              addRandomSuffix: true,
+              // jika perlu
+            });
+
+            imageUrls.push(url);
+          }
+        }
+      }
 
       if (!title || !description || !slug) {
         return res.status(400).json({
@@ -74,7 +99,7 @@ class FacilityController {
           slug,
           features: features ? JSON.parse(features) : [],
           status: "active",
-          image,
+          images: imageUrls,
         },
       });
 
@@ -96,14 +121,14 @@ class FacilityController {
   async update(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
-      const { title, description, image, slug, features, status } = req.body;
+      const { title, description, images, slug, features, status } = req.body;
 
       const updated = await prisma.facility.update({
         where: { id },
         data: {
           title,
           description,
-          image,
+          images,
           slug,
           features: features ?? [],
           status,
