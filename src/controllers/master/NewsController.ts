@@ -11,7 +11,11 @@ class NewsController {
     const news = await prisma.news.findMany({
       orderBy: { createdAt: "desc" },
     });
-    res.json(news);
+    res.status(201).json({
+      success: true,
+      message: "Berita berhasil diambil",
+      data: news,
+    });
   }
 
   async getById(req: Request, res: Response) {

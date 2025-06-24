@@ -31,6 +31,7 @@ class GalleryController {
 
       res.json({
         success: true,
+        message: "Gambar berhasil diambil",
         data: {
           images,
           categories: categories.map((c) => c.category),
